@@ -118,14 +118,42 @@ Upstream is used unmodified either way.
 ## 2. MANUS SDK
 
 **Not included in this repository** -- redistribution is not permitted (see
-[`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)). Obtain it from MANUS,
-unpack it somewhere, and point the build at it:
+[`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)). Obtain it from MANUS and
+unpack it.
 
-```bash
-make MANUS_SDK=/path/to/ManusSDK
+`MANUS_SDK` must point at the folder holding `include/` and `lib/`, which in the
+MANUS distribution is one level in -- **not** the top of the archive:
+
+```
+<wherever you unpacked it>/
+  license/
+  ROS2/
+  SDKClient_Linux/
+    ManusSDK/            <- MANUS_SDK points here
+      include/
+      lib/               (libManusSDK_Integrated.so)
+    SDKClient_Linux.out  (the client used for calibration)
+  SDKClient_Windows/
 ```
 
-The default path is `external/ManusSDK_v3.1.1/SDKClient_Linux/ManusSDK`.
+Unpacking under `external/` in this repository matches the built-in default, and
+that path is gitignored so the SDK is never committed:
+
+```bash
+mkdir -p external && tar -xf <manus-sdk-archive> -C external/
+make
+```
+
+Otherwise pass the path:
+
+```bash
+make MANUS_SDK=/path/to/SDKClient_Linux/ManusSDK
+```
+
+The default is `external/ManusSDK_v3.1.1/SDKClient_Linux/ManusSDK`. It contains
+the version number, so a different SDK version needs `MANUS_SDK=` or a renamed
+folder. `make` checks for `$(MANUS_SDK)/include` and stops with the path it
+tried if it is not there.
 
 Two udev details are easy to miss:
 
