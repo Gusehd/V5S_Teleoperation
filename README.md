@@ -123,10 +123,10 @@ only one instance at a time.
 
 The shipped values work, with one exception: **`scaling_factor` depends on the
 size of your hand.** It is "how many times longer the robot's fingers are than
-yours", so a new user should recompute it:
+yours", so a new user is recommended to recompute it (the default is 1.5):
 
 ```bash
-.venv/bin/python tools/recommend_scaling.py --glove-id 0x...
+.venv/bin/python tools/recommend_scaling.py --glove-id <glove id>
 ```
 
 Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
