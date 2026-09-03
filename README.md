@@ -204,27 +204,13 @@ as an **unmodified dependency**. Upstream is neither forked nor vendored here.
 What upstream does not provide is added by our code in
 `src/v5s_teleop/retarget/`:
 
-1. **Injecting the pinch projection distance (`eta1`).** Upstream does not expose
-   this through its config and pins it at `1e-4`. That distance is only
-   satisfied once the fingertip meshes interpenetrate, which on real hardware
-   shows up as "the pinch never closes". We measure the fingertip frame's depth
-   below the contact surface and pass the matching value.
-2. **A virtual wrist frame (`wrist_offset`).** This hand's URDF has no link
-   corresponding to a wrist or mounting face -- that is intentional in the
-   design. Retargeting needs a wrist, so we establish that reference point
-   ourselves.
+1. **Injecting the pinch projection distance (`eta1`).** 
+2. **A virtual wrist frame (`wrist_offset`).** T
 3. **A self-collision penalty**, giving finger link pairs a minimum separation
    (off by default).
-4. **Shape matching (`shape_weight`).** All upstream targets are fingertip
-   positions, which leaves one degree of freedom undetermined across a finger's
-   four joints -- the fingertip lands correctly while only one phalanx bends.
-   This term matches the **direction** of each segment against the human hand to
-   settle that freedom. It trades against fingertip accuracy, so the useful
-   range is small.
+4. **Shape matching (`shape_weight`).** 
 
 The methodology follows DexPilot (Handa et al., ICRA 2020, arXiv:1910.03135).
-The implementation is ours.
-
 ## Documentation
 
 - [`docs/RUNBOOK.md`](docs/RUNBOOK.md) -- how to run it, terminal by terminal
