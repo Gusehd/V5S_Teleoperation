@@ -22,7 +22,7 @@ SDKFLAGS  = -I$(MANUS_SDK)/include -L$(MANUS_SDK)/lib \
             -lManusSDK_Integrated -Wl,-rpath,$(MANUS_SDK)/lib -lpthread
 
 BRIDGE = bridge_cpp/manus_bridge
-TOOLS  = tools/manus_diag tools/manus_nodes tools/manus_apply_mcal
+TOOLS  = tools/manus_diag tools/manus_nodes
 ALL    = $(BRIDGE) $(TOOLS)
 
 .PHONY: all bridge tools clean check-sdk test

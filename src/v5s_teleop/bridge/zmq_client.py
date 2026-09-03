@@ -20,7 +20,6 @@ from __future__ import annotations
 import struct
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import Self
 
 import numpy as np
 import zmq
@@ -138,7 +137,9 @@ class GloveSubscriber:
     def close(self) -> None:
         self._sock.close()
 
-    def __enter__(self) -> Self:
+    # typing.Self would be the modern annotation, but it is 3.11+ and this
+    # package supports 3.10 (ROS2 Humble).
+    def __enter__(self) -> GloveSubscriber:  # noqa: PYI034
         return self
 
     def __exit__(self, *exc) -> None:

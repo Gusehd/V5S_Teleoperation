@@ -32,3 +32,6 @@ packages = ["src/v5s_teleop"]
 
 [tool.ruff]
 line-length = 100
+# The lowest supported version (ROS2 Humble ships Python 3.10), so ruff
+# flags anything newer.
+target-version = "py310"

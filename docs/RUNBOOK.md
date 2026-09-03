@@ -324,6 +324,8 @@ python tools/check_lr_mapping.py
 
 ## F. Diagnostic tools
 
+What each one is for: [`../tools/README.md`](../tools/README.md).
+
 ```bash
 python tools/glove_live.py                   # fingertip coordinates and range of motion
 python tools/tactile_live.py --num 0         # raw values of all 16 tactile channels

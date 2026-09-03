@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import struct
 from collections.abc import Sequence
-from typing import Self
 
 import zmq
 
@@ -78,7 +77,9 @@ class HapticSender:
         finally:
             self._sock.close()
 
-    def __enter__(self) -> Self:
+    # typing.Self would be the modern annotation, but it is 3.11+ and this
+    # package supports 3.10 (ROS2 Humble).
+    def __enter__(self) -> HapticSender:  # noqa: PYI034
         return self
 
     def __exit__(self, *exc) -> None:

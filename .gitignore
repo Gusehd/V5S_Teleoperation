@@ -47,7 +47,6 @@ log.txt
 bridge_cpp/manus_bridge
 tools/manus_diag
 tools/manus_nodes
-tools/manus_apply_mcal
 
 # ── Work-in-progress backups ────────────────────────────────────────────
 *.backup-before-*

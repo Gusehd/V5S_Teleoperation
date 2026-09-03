@@ -134,7 +134,7 @@ Full command reference: [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 | `src/v5s_teleop/ros2/` | The two ROS2 nodes (the only files that need `rclpy`) |
 | `launch/` | One-command startup |
 | `bridge_cpp/` | Glove bridge (C++, MANUS SDK) |
-| `tools/` | Diagnostics and calibration helpers |
+| `tools/` | Diagnostics and calibration helpers -- see [`tools/README.md`](tools/README.md) |
 | `tests/` | Smoke tests -- `make test`, no hardware needed |
 | `urdf/` | V5 Sense hand URDF |
 
