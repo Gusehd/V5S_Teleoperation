@@ -146,7 +146,7 @@ ros2 launch launch/v5s.launch.py hands:=both
 > When running the controller, use NUM:=0 for the left hand and NUM:=1 for the right hand (default).
 > That single command brings up seven processes: two hand drivers, the glove bridge, two teleop nodes and two haptics nodes.
 > driver:=true is the default, which is why the driver workspace has to be sourced. If the drivers are already running in their own terminals, add driver:=false
-> For other execution methods, please refer to [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
+> Full command reference: [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 
 Examples:
 
@@ -175,8 +175,6 @@ ros2 param set /v5s_haptics_left gamma 0.7
 
 > Before driving the hardware with a config you have not used before, it is
 > worth running `dry_run:=true` once and checking the joint angles in the log.
-
-Full command reference: [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 
 ## Repository layout
 
