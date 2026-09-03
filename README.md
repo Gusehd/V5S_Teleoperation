@@ -35,8 +35,8 @@ git clone <this repository>
 cd V5S_Teleop
 ```
 
-Create the virtual environment **at `.venv` inside the repository** -- see the
-note below on why the location matters.
+Create the virtual environment **at `.venv` inside the repository** (see the
+note below on why the location matters.)
 
 ```bash
 python3.12 -m venv .venv
