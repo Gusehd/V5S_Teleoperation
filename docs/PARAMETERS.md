@@ -67,15 +67,6 @@ vectors, so we establish that reference point ourselves. `retarget/builder.py`
 adds a fixed link to a copy of the URDF at runtime -- **the original is never
 modified.**
 
-**`z = -0.169` is a justified value. Do not change it.**
-Treating the hand as two segments (palm: wrist to MCP, finger: MCP to tip), a
-human is about 1:1.03, whereas using `palm_link` directly makes the robot a hand
-with no palm (1:9.5). The two scales coincide at z = -169 mm, where palm scale =
-finger scale = 1.58. **It comes from the robot's own geometry and is independent
-of the user.**
-
-**`x` is preference, and its meaning depends on the shape matching strength.**
-
 | `shape_weight` | What x does |
 |---|---|
 | low (~0.05) | **Strongly affects joint distribution.** x=0 resembles the human hand most (mean error 7.2 deg vs 14.3 deg at x=-50 mm) |
