@@ -36,8 +36,8 @@ cd V5S_Teleoperation
 ```
 
 First get the two external pieces, following their own instructions:
-  ▎ [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense)
-  ▎ [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/)(unpack it under external/ in this repository, which is where step 2 looks by default).
+- [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense)
+- [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/)(unpack it under external/ in this repository, which is where step 2 looks by default).
 
 Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
