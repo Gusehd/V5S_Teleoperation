@@ -183,6 +183,7 @@ yours", so a new user is recommended to recompute it (the default is 1.5):
 > status line as `gloves L=0x... R=0x...`.
 
 Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
+
 **[`docs/PARAMETERS.md`](docs/PARAMETERS.md)** -- every adjustable value, split into retargeting (section 1) and haptics (section 2).
 
 **6. Run**
