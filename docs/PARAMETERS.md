@@ -41,8 +41,7 @@ scaling_factor: 1.5
 The human fingertip vectors are multiplied by this to form the robot's targets.
 **It differs per user.**
 
-Geometrically 1.58 is the exact value (the point where the palm-to-finger ratio
-matches). Recompute when the user changes:
+Recompute when the user changes:
 
 ```bash
 python tools/recommend_scaling.py --glove-id <glove id>
