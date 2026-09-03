@@ -119,16 +119,6 @@ Check: `ros2 topic list | grep allegroHand_0` should show `joint_cmd`,
 [bridge] left 113 Hz | nodes=25 | 1234 frames | undelivered 0 | unidentified 0 | 0 recoveries | gloves L=0x1EC9928C R=0x0
 ```
 
-| Field | Normal | If not |
-|---|---|---|
-| `unidentified` | **0** | Side identification failed. Every frame is discarded and **the hand will not move** |
-| `gloves L=` | **not 0** | The MANUS landscape callback never arrived |
-| `Hz` | around 120 wired, around 113 wireless | Check the glove connection and power |
-| `undelivered` | 0 | A subscriber is not keeping up |
-
-With both gloves attached the rate is printed per hand:
-`left 113 / right 112 Hz`.
-
 ### Terminal 3 -- teleop
 
 ```bash
