@@ -137,16 +137,20 @@ Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 **5. Run**
 
 ```bash
+# Run hand Controller
 source /opt/ros/jazzy/setup.bash
-source ~/hand_ws/<driver workspace>/install/setup.bash
+source ~/<driver workspace>/install/setup.bash
 
+# example : Hand controller
+ros2 launch allegro_hand_controllers allegro_hand.launch.py HAND:=left CAN_DEVICE:=can0 NUM:=0 VISUALIZE:=true GUI:=true
+
+# example : Teleoperation
 ros2 launch launch/v5s.launch.py hands:=left      # left hand, with haptics
 ros2 launch launch/v5s.launch.py hands:=both      # both hands
 ```
-
-`Ctrl+C` once brings everything down.
-
-Common variations:
+> When running the controller, use NUM:=0 for the left hand and NUM:=1 for the right hand (default).
+> 
+Examples:
 
 ```bash
 # log joint angles without driving the hand
