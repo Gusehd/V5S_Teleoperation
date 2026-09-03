@@ -78,13 +78,43 @@ VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 >
 > Only a plain CPU install is needed; nothing here uses a GPU.
 
+
 **2. Build the C++ bridge**
 
-```bash
-make                                   # or: make MANUS_SDK=/path/to/ManusSDK
+**This step is required.** Only C++ sources are committed -- the binaries are
+not, because the bridge links the MANUS SDK, which may not be redistributed.
+
+The build needs the SDK's `include/` and `lib/`. In the MANUS distribution those
+live one level in, **not** at the top of the archive:
+
+```
+<wherever you unpacked it>/
+  SDKClient_Linux/
+    ManusSDK/            <- point MANUS_SDK at this folder
+      include/
+      lib/
 ```
 
-Rebuild after editing any `.cpp`. A stale binary still looks like it is working.
+Unpacking it under `external/` in this repository makes it the default (that
+path is gitignored, so the SDK is never committed):
+
+```bash
+mkdir -p external && tar -xf <manus-sdk-archive> -C external/
+make
+```
+
+Anywhere else works too -- just say where:
+
+```bash
+make MANUS_SDK=/path/to/SDKClient_Linux/ManusSDK
+```
+
+> The built-in default is `external/ManusSDK_v3.1.1/SDKClient_Linux/ManusSDK`,
+> which has the version in it. With a different SDK version, pass `MANUS_SDK=`
+> or rename the folder.
+
+Afterwards, rebuild whenever a `.cpp` changes: a stale binary still looks like it
+is working. Optionally check the build with `make test`, which needs no hardware.
 
 **3. Calibrate the glove** -- required, and it fails silently if skipped
 
