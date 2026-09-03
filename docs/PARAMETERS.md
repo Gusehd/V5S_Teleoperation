@@ -237,7 +237,7 @@ python -m v5s_teleop.ros2.teleop_node --num 0 --shape-weight 0.2
 | `--dry-run` | off | **Publishes nothing.** Logs the values only |
 | `--diag` | off | Print per-layer maximum delay every second (stutter diagnosis) |
 | `--qos-depth` | 10 | Publisher queue depth (the ROS2 default) |
-| `--qos-lifespan-ms` | 0 (off) | Let DDS discard stale commands. **Unverified** |
+| `--qos-lifespan-ms` | 0 (off) | Let DDS discard stale commands. |
 | `--scaling` / `--wrist-offset` / `--shape-weight` / `--collision-weight` | config file | One-off overrides |
 
 > **`BEST_EFFORT` publishing is not possible.** The driver
