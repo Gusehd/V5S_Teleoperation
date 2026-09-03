@@ -35,6 +35,10 @@ git clone <this repository>
 cd V5S_Teleoperation
 ```
 
+First get the two external pieces, following their own instructions:
+  ▎ [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense)
+  ▎ [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/)(unpack it under external/ in this repository, which is where step 2 looks by default).
+
 Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
 
@@ -112,7 +116,7 @@ make MANUS_SDK=/path/to/SDKClient_Linux/ManusSDK
 Afterwards, rebuild whenever a `.cpp` changes: a stale binary still looks like it
 is working. Optionally check the build with `make test`, which needs no hardware.
 
-**3. Allow access to the glove** -- one time, per machine
+**3. Allow access to the glove**
 
 The dongle and the license key are USB HID devices, and Linux creates their
 `/dev/hidraw*` nodes owned by root with mode `0600`. The SDK reads the license
