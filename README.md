@@ -131,11 +131,6 @@ yours", so a new user is recommended to recompute it (the default is 1.5):
 
 Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 
-**That is the only one we suggest changing to begin with.** The rest -- the wrist
-offset, the shape matching weight, the pinch distances, the haptic response
-curve -- have measured or geometric justifications and are documented with the
-reasoning behind each value, plus how to tune them and what the trade-offs are:
-
 > **[`docs/PARAMETERS.md`](docs/PARAMETERS.md)** -- every adjustable value,
 > split into retargeting (section 1) and haptics (section 2).
 
