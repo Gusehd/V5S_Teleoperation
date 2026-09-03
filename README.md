@@ -141,10 +141,7 @@ Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 source /opt/ros/jazzy/setup.bash
 source ~/<driver workspace>/install/setup.bash
 
-# example : Hand driver
-ros2 launch allegro_hand_controllers allegro_hand.launch.py HAND:=left CAN_DEVICE:=can0 NUM:=0
-
-# example : Teleoperation
+# example : Run hand driver & Teleoperation
 ros2 launch launch/v5s.launch.py hands:=left      # left hand, with haptics
 ros2 launch launch/v5s.launch.py hands:=both      # both hands
 ```
