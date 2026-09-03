@@ -127,12 +127,7 @@ collision_link_pairs:
   - [ "link_7_0_tip", "link_11_0_tip", 0.0349 ]   # middle-ring
 ```
 
-Across 1500 random poses inside the limits, neighbouring fingers interpenetrate
-6-10% of the time. In practice the difference is barely noticeable on hardware,
-so **it ships off.** Turn it on only when fingers are visibly colliding.
-
-> **Never add a thumb pair.** The thumb-to-finger fingertip contact margin
-> (32-34 mm) is larger than `eta1` (27 mm), so adding one **breaks the pinch.**
+Turn it on only when fingers are visibly colliding.
 
 ```bash
 python -m v5s_teleop.ros2.teleop_node --num 0 --collision-weight 1000
