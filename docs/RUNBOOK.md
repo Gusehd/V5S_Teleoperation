@@ -3,19 +3,35 @@
 **Follow this and it reproduces.** Left hand = `allegroHand_0`, right hand =
 `allegroHand_1`.
 
-In every terminal, first:
+## Build once, after cloning
+
+**Required.** The repository ships only C++ sources -- the binaries are not
+committed, because the bridge links the MANUS SDK, which may not be
+redistributed. Without this step there is no `bridge_cpp/manus_bridge` to run:
 
 ```bash
-source /opt/ros/jazzy/setup.bash && source .venv/bin/activate
+make
 ```
 
-After editing anything in C++ (the bridge or the diagnostic tools) you **must
-rebuild**. A stale binary keeps running and looks like it is working:
+After that, only when a `.cpp` changes. **A stale binary keeps running and looks
+like it is working**, so rebuild whenever you edit one.
+
+Optional, any time -- needs no hardware and takes a few seconds:
 
 ```bash
-make            # rebuilds only what changed
-make test       # smoke tests plus the symmetry check (no hardware, a few seconds)
+make test       # smoke tests plus the left/right symmetry check
 ```
+
+## What to source
+
+```bash
+source /opt/ros/jazzy/setup.bash                        # always
+source ~/hand_ws/<driver workspace>/install/setup.bash  # if the launch starts the drivers
+source .venv/bin/activate                               # only for sections A-E below
+```
+
+The venv does **not** need activating for section 0 -- the launch file finds
+`.venv/bin/python` itself. Activate it only when running `python -m ...` by hand.
 
 ---
 
@@ -24,10 +40,16 @@ make test       # smoke tests plus the symmetry check (no hardware, a few second
 ```bash
 source /opt/ros/jazzy/setup.bash
 source ~/hand_ws/<driver workspace>/install/setup.bash
-cd ~/V5S_Teleop && make          # only after editing C++
 
 ros2 launch launch/v5s.launch.py hands:=both
 ```
+
+That single command brings up **seven processes**: two hand drivers, the glove
+bridge, two teleop nodes and two haptics nodes. `driver:=true` is the default,
+which is why the driver workspace has to be sourced.
+
+If the drivers are already running in their own terminals, add `driver:=false`
+-- otherwise a second set is started on the same CAN buses and topics.
 
 **The venv does not need activating** -- the launch file finds the repository's
 `.venv/bin/python` itself.
@@ -297,7 +319,7 @@ python -m v5s_teleop.ros2.haptics_node --hand right --num 1
 
 Port summary:
 
-| | Left | Right |
+| Socket | Left | Right |
 |---|---|---|
 | Glove stream (PUB) | 5555 | 5557 (`--right`) |
 | Haptic input (PULL) | 5556 | 5558 (`--haptics-right`) |
