@@ -42,11 +42,10 @@ The human fingertip vectors are multiplied by this to form the robot's targets.
 **It differs per user.**
 
 Geometrically 1.58 is the exact value (the point where the palm-to-finger ratio
-matches), but the operator chose 1.5 for slightly smaller motion. Recompute when
-the user changes:
+matches). Recompute when the user changes:
 
 ```bash
-python tools/recommend_scaling.py --glove-id 0x...
+python tools/recommend_scaling.py --glove-id <glove id>
 ```
 
 - **Larger**: small movements produce large robot motion, at the cost of more
