@@ -32,7 +32,7 @@ The MANUS SDK is **not** included here -- redistribution is not permitted. See
 
 ```bash
 git clone <this repository>
-cd V5S_Teleop
+cd V5S_Teleoperation
 ```
 
 Create the virtual environment **at `.venv` inside the repository** (see the
