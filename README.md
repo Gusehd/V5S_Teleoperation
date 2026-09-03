@@ -81,9 +81,6 @@ VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 
 **2. Build the C++ bridge**
 
-**This step is required.** Only C++ sources are committed -- the binaries are
-not, because the bridge links the MANUS SDK, which may not be redistributed.
-
 The build needs the SDK's `include/` and `lib/`. In the MANUS distribution those
 live one level in, **not** at the top of the archive:
 
