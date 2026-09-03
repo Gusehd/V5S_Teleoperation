@@ -183,7 +183,7 @@ its own finger.
 
 ## Verified configuration
 
-| | |
+| Component | Details |
 |---|---|
 | Ubuntu | 24.04 |
 | ROS2 | Jazzy |
