@@ -92,8 +92,7 @@ live one level in, **not** at the top of the archive:
       lib/
 ```
 
-Unpacking it under `external/` in this repository makes it the default (that
-path is gitignored, so the SDK is never committed):
+Unpacking it under `external/` in this repository makes it the default:
 
 ```bash
 mkdir -p external && tar -xf <manus-sdk-archive> -C external/
