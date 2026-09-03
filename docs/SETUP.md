@@ -26,10 +26,24 @@ ros2 launch launch/v5s.launch.py hands:=left python:=/path/to/bin/python
 ```bash
 python3.12 -m venv .venv
 .venv/bin/pip install --upgrade pip
+
+# CPU torch first, otherwise pip pulls ~3 GB of CUDA libraries
+.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
 .venv/bin/pip install -e .
 ```
 
 `dex-retargeting` is on PyPI, so this pulls everything.
+
+**Install the CPU torch first.** `dex-retargeting` requires torch, and the
+default PyPI wheel brings the full CUDA stack (`nvidia-cublas`, `nvidia-cudnn`
+and so on). Nothing here uses a GPU. Measured on a clean install:
+
+```
+plain  pip install -e .                     6.0 GB   (3.2 GB of it CUDA)
+CPU wheel first, then pip install -e .      about 1 GB
+```
+
+`uv` handles this with `--torch-backend=cpu`, shown below.
 
 ### If `venv` fails
 

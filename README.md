@@ -41,8 +41,16 @@ note below on why the location matters.
 ```bash
 python3.12 -m venv .venv
 .venv/bin/pip install --upgrade pip
+
+# Install the CPU build of torch first -- see the note below
+.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
 .venv/bin/pip install -e .
 ```
+
+> **Install the CPU torch first.** `dex-retargeting` requires torch, and the
+> default PyPI wheel pulls in about 3 GB of CUDA libraries. Nothing here uses a
+> GPU, so that is wasted: a plain `pip install -e .` produces a 6 GB
+> environment, against roughly 1 GB with the CPU wheel.
 
 If `python3.12 -m venv` fails (some Ubuntu images ship without `ensurepip`),
 [`uv`](https://docs.astral.sh/uv/) works without sudo:
