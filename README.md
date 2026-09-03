@@ -137,15 +137,16 @@ Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 **5. Run**
 
 ```bash
-# Run hand driver
+# One command (a single terminal) - normally use this
 source /opt/ros/jazzy/setup.bash
 source ~/<driver workspace>/install/setup.bash
 
-# example : Run hand driver & Start teleoperation
-ros2 launch launch/v5s.launch.py hands:=left      # left hand, with haptics
-ros2 launch launch/v5s.launch.py hands:=both      # both hands
+ros2 launch launch/v5s.launch.py hands:=both
 ```
 > When running the controller, use NUM:=0 for the left hand and NUM:=1 for the right hand (default).
+> That single command brings up seven processes: two hand drivers, the glove bridge, two teleop nodes and two haptics nodes.
+> driver:=true is the default, which is why the driver workspace has to be sourced. If the drivers are already running in their own terminals, add driver:=false
+> For other execution methods, please refer to [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 
 Examples:
 
