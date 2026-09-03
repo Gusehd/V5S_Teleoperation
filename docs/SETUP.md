@@ -155,21 +155,6 @@ the version number, so a different SDK version needs `MANUS_SDK=` or a renamed
 folder. `make` checks for `$(MANUS_SDK)/include` and stops with the path it
 tried if it is not there.
 
-Two udev details are easy to miss:
-
-- The license dongle appears in `lsusb` as **"Zalman Tech"** (a SenseLock
-  device), not under the MANUS name, so it is easy to conclude it is absent.
-- Default `hidraw` permissions are 0600 (root only). Without a udev rule, running
-  as a normal user produces a "No compatible license found" warning and **no
-  skeleton stream is generated**.
-
-Both rules are installed by the scripts in `tools/`:
-
-```bash
-sudo bash tools/install_license_udev.sh
-sudo bash tools/install_glove_udev.sh
-```
-
 ## 3. ROS2 and the hand driver
 
 Match the distribution the hand driver uses. `rclpy` comes from the ROS2
