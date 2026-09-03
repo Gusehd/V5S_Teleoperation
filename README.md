@@ -20,7 +20,7 @@ Both hands are supported and can run at the same time, wired or wireless.
 | ROS2 | Jazzy -- `rclpy` comes from the distribution, not pip |
 | Python | 3.12 (upstream `dex-retargeting` requires < 3.13) |
 | Hand driver | [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense) |
-| [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/) | Core 3 / 3.1.1, obtained from MANUS under your own license |
+| [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/) | Core 3 (tested on 3.1.1), obtained from MANUS under your own license |
 | Hardware | MANUS Metaglove Pro Haptic, V5 Sense hand, one CAN interface per hand |
 
 The MANUS SDK is **not** included here -- redistribution is not permitted. See
