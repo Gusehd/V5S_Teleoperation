@@ -169,7 +169,7 @@ before starting -- with `Glove: 0` the keys do nothing.
 **Shut the client down completely before starting the bridge** -- the SDK allows
 only one instance at a time.
 
-**5. Adjust parameters for your hand**
+**5. Adjust parameters for your hand (Optional)**
 
 The shipped values work, with one exception: **`scaling_factor` depends on the
 size of your hand.** It is "how many times longer the robot's fingers are than
