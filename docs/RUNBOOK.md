@@ -26,7 +26,7 @@ make test       # smoke tests plus the left/right symmetry check
 
 ```bash
 source /opt/ros/jazzy/setup.bash                        # always
-source ~/hand_ws/<driver workspace>/install/setup.bash  # if the launch starts the drivers
+source ~/<driver workspace>/install/setup.bash  # if the launch starts the drivers
 source .venv/bin/activate                               # only for sections A-E below
 ```
 
