@@ -165,8 +165,7 @@ source /opt/ros/jazzy/setup.bash
 source ~/<driver workspace>/install/setup.bash
 ```
 
-The driver package is [`allegro_hand_ros2_V5_Sense`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense). Each hand needs its own CAN
-interface, at 1 Mbit/s:
+The driver package is [`allegro_hand_ros2_V5_Sense`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense).
 
 ## 4. Verify
 
