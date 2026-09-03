@@ -108,10 +108,6 @@ The LGPL does not restrict commercial use, but it carries obligations:
   dependency satisfies this. **Static linking into a binary, or vendoring the
   source, makes the obligations considerably heavier.**
 
-> Review this before release. As long as the distribution form does not change
-> (source plus pip dependencies) there appears to be no issue, but that judgement
-> belongs to legal counsel.
-
 ---
 
 ## C++ build dependencies (glove bridge and diagnostic tools)
