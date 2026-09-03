@@ -138,8 +138,8 @@ Normal log:
 [v5s_teleop_left] 120 Hz  s=1.50 o=[-0.06, 0.0, -0.169] w=0.2 | index ... | middle ... | thumb ...
 ```
 
-**On a first run, or after changing the config, check the joint angles with
-`--dry-run` first.** That is the hardware safety rule.
+**Recommendation : a first run, or after changing the config, check the joint angles with
+`--dry-run` first.**
 
 ---
 
