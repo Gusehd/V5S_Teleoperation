@@ -67,28 +67,6 @@ vectors, so we establish that reference point ourselves. `retarget/builder.py`
 adds a fixed link to a copy of the URDF at runtime -- **the original is never
 modified.**
 
-| `shape_weight` | What x does |
-|---|---|
-| low (~0.05) | **Strongly affects joint distribution.** x=0 resembles the human hand most (mean error 7.2 deg vs 14.3 deg at x=-50 mm) |
-| high (~0.2) | **Almost no effect on joint angles** (2.9-3.1 deg across x from 0 to -80 mm). It only shifts where the fingertip lands |
-
-At `shape_weight = 0.2`, what x changes:
-
-```
-x = 0      tip error 27mm    index tip reach  18 to 106 mm
-x = -0.06  tip error 46mm    index tip reach  69 to 161 mm
-```
-
-Going more negative **moves the hand forward at the cost of distance from the
-"human fingertip position"**. With shape matching on, tip error is already a soft
-metric, so **choose by feel.**
-
-**`y = 0`** -- left/right symmetric, so there is nothing to offset.
-
-```bash
-ros2 param set /v5s_teleop_left wrist_offset "[-0.06, 0.0, -0.169]"   # ~1 s rebuild
-```
-
 ### 1.3 `shape_weight` -- shape matching strength
 
 ```yaml
