@@ -118,7 +118,7 @@ Upstream is used unmodified either way.
 ## 2. MANUS SDK
 
 **Not included in this repository** -- redistribution is not permitted (see
-[`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)). Obtain it from MANUS and
+[`THIRD_PARTY_NOTICES.md`](../THIRD_PARTY_NOTICES.md)). Obtain it from [`MANUS`](https://docs.manus-meta.com/3.2.0/Resources/#manus-core-31-integrations) and
 unpack it.
 
 `MANUS_SDK` must point at the folder holding `include/` and `lib/`, which in the
