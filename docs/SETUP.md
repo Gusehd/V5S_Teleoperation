@@ -62,17 +62,45 @@ uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 ```
 
+### Why venv is recommended
+
+A venv does not bring its own interpreter -- it points at the system one:
+
+```
+.venv/pyvenv.cfg
+  home = /usr/bin          <- the system Python 3.12
+```
+
+`rclpy` is a compiled extension built against that same interpreter
+(`_rclpy_pybind11.cpython-312-x86_64-linux-gnu.so`), so inside a venv the ABI
+matches automatically. That is the whole reason, and it is worth one sentence
+because the alternative can fail in confusing ways.
+
 ### Conda
 
-Conda works, but it does not get picked up automatically. Create the environment
-with Python 3.12, `pip install -e .` inside it, and pass the interpreter to
-every launch:
+Conda works. It just brings its own Python and its own `libstdc++`, so two
+things have to line up that a venv gets for free:
+
+- **The Python minor version must match the ROS2 distribution** -- 3.12 for
+  Jazzy, 3.10 for Humble. `rclpy` is compiled for one minor version only; with
+  any other, `import rclpy` fails outright.
+- **`libstdc++` conflicts.** `rclpy` links the system `libstdc++`, while an
+  activated conda environment puts its own first. The symptom is
+  `GLIBCXX_... not found`, or a crash at import.
+
+Conda also is not detected automatically, so pass the interpreter:
 
 ```bash
 conda create -n v5s python=3.12 && conda activate v5s
+pip install --index-url https://download.pytorch.org/whl/cpu torch
 pip install -e .
 ros2 launch launch/v5s.launch.py hands:=left python:=$(which python)
 ```
+
+> Neither issue applies to the core (retargeting, MANO conversion, haptic
+> mapping, bridge client) -- none of it imports `rclpy`, so tuning, testing and
+> the visualization tools all work under conda regardless. Only the two nodes in
+> `src/v5s_teleop/ros2/` are affected.
 
 > `dex-retargeting` imports `torch` without declaring it as a dependency. Our
 > `pyproject.toml` declares it, so any of the commands above install it.

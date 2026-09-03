@@ -61,6 +61,9 @@ uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 ```
 
+> **A venv is recommended, not required.** Conda works too; see
+> [`docs/SETUP.md`](docs/SETUP.md) for the two things that have to line up.
+>
 > **The environment must live at `<repository>/.venv`.** The launch file looks
 > for `.venv/bin/python` there so that you do not have to activate anything. If
 > the environment is elsewhere -- a conda env, or a venv under a different name
