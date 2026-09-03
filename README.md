@@ -14,7 +14,7 @@ Both hands are supported and can run at the same time, wired or wireless.
 
 ## Requirements
 
-| | |
+| Item | Details |
 |---|---|
 | OS | Ubuntu (verified on 24.04) |
 | ROS2 | Jazzy -- `rclpy` comes from the distribution, not pip |
