@@ -112,7 +112,27 @@ make MANUS_SDK=/path/to/SDKClient_Linux/ManusSDK
 Afterwards, rebuild whenever a `.cpp` changes: a stale binary still looks like it
 is working. Optionally check the build with `make test`, which needs no hardware.
 
-**3. Calibrate the glove** -- required, and it fails silently if skipped
+**3. Allow access to the glove** -- one time, per machine
+
+The dongle and the license key are USB HID devices, and Linux creates their
+`/dev/hidraw*` nodes owned by root with mode `0600`. The SDK reads the license
+over HID, so as a normal user it cannot, and reports:
+
+```
+[warning] No compatible license found. Please connect a license with the SDK component.
+```
+
+with no skeleton stream -- the message points at the license, not at permissions,
+which makes this easy to misdiagnose. Two udev rules grant access by vendor id:
+
+```bash
+sudo bash tools/install_license_udev.sh
+sudo bash tools/install_glove_udev.sh
+```
+
+Replug the dongle afterwards so the rules apply to the existing nodes.
+
+**4. Calibrate the glove**
 
 Calibration is stored per glove ID, so **each glove must be calibrated
 separately**. Without it the skeleton freezes in a fixed pose with no error, and
@@ -145,7 +165,7 @@ before starting -- with `Glove: 0` the keys do nothing.
 **Shut the client down completely before starting the bridge** -- the SDK allows
 only one instance at a time.
 
-**4. Adjust parameters for your hand**
+**5. Adjust parameters for your hand**
 
 The shipped values work, with one exception: **`scaling_factor` depends on the
 size of your hand.** It is "how many times longer the robot's fingers are than
@@ -160,7 +180,7 @@ Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 > **[`docs/PARAMETERS.md`](docs/PARAMETERS.md)** -- every adjustable value,
 > split into retargeting (section 1) and haptics (section 2).
 
-**5. Run**
+**6. Run**
 
 ```bash
 # One command (a single terminal) - normally use this
