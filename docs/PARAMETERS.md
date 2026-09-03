@@ -83,23 +83,7 @@ human. Directions rather than positions, because the robot's segments are not a
 scaled copy of a human's (on the index finger: proximal 1.01x, intermediate
 1.59x, distal 1.91x).
 
-**It is not free:**
-
-```
-weight    tip position error    segment direction error
-  0.0          8.7 mm                 29.6 deg
-  0.01        12.4                    24.6
-  0.05        27.5                    11.8
-  0.1         34.8                     6.5
-  0.2         39.1                     3.4
-```
-
-Matching directions perfectly leaves a **structural floor** of 30-50 mm of tip
-error. No amount of tuning removes it. **The pinch is safe, though** -- the pinch
-projection weight (200-400) dominates the shape term (measured: pinch distance
-moves only 0.0 to 0.9 mm across weight 0 to 0.5).
-
-- **Useful range 0.01 to 0.2.** Beyond that, fingertip accuracy is gone
+- **Useful range 0.0 to 0.2.** Beyond that, fingertip accuracy is gone
 - The thumb is excluded (see section 4)
 
 ```bash
