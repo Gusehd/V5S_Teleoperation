@@ -161,15 +161,3 @@ from them.
 | Handa, Van Wyk et al., *DexPilot*, ICRA 2020 (arXiv:1910.03135) | Retargeting cost function and pinch projection |
 | Qin, Yang et al., *AnyTeleop*, RSS 2023 (arXiv:2307.04577) | Design basis of dex-retargeting |
 
----
-
-## Deliberate exclusions (not used -- recorded for the record)
-
-Components **deliberately excluded** during license review, recorded so that the
-reasoning is available later.
-
-| Component | Reason for exclusion |
-|---|---|
-| GeoRT (facebookresearch) | CC-BY-NC -- non-commercial only, incompatible with commercial distribution |
-| A third-party teleoperation repository with no license file | No LICENSE file means all rights reserved |
-| AnyDexRT implementations | Source not published |
