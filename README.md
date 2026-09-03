@@ -31,9 +31,41 @@ The MANUS SDK is **not** included here -- redistribution is not permitted. See
 **1. Install**
 
 ```bash
+git clone <this repository>
+cd V5S_Teleop
+```
+
+Create the virtual environment **at `.venv` inside the repository** -- see the
+note below on why the location matters.
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/pip install --upgrade pip
+.venv/bin/pip install -e .
+```
+
+If `python3.12 -m venv` fails (some Ubuntu images ship without `ensurepip`),
+[`uv`](https://docs.astral.sh/uv/) works without sudo:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
 uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 ```
+
+> **The environment must live at `<repository>/.venv`.** The launch file looks
+> for `.venv/bin/python` there so that you do not have to activate anything. If
+> the environment is elsewhere -- a conda env, or a venv under a different name
+> -- the launch file silently falls back to `python3` on `PATH`, which is
+> usually the system Python and will fail to import `v5s_teleop`.
+>
+> To use conda or another location, pass the interpreter explicitly:
+>
+> ```bash
+> ros2 launch launch/v5s.launch.py hands:=left python:=/path/to/bin/python
+> ```
+>
+> Only a plain CPU install is needed; nothing here uses a GPU.
 
 **2. Build the C++ bridge**
 

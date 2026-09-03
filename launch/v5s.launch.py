@@ -16,6 +16,8 @@ What to bring up is chosen with arguments::
     bridge:=true | false              include the glove bridge (default true)
     dry_run:=true | false             do not emit joint_cmd (default false)
     diag:=true | false                teleop latency instrumentation (default false)
+    python:=/path/to/bin/python       interpreter for the nodes (default:
+                                      <repo>/.venv/bin/python, then python3)
 
 Examples::
 
@@ -64,8 +66,21 @@ DRIVER_PKG = "allegro_hand_controllers"
 _HANDS = {"left": ["left"], "right": ["right"], "both": ["left", "right"]}
 
 
-def _python() -> str:
-    """The repository venv's python, falling back to python3 on PATH."""
+def _python(override: str = "") -> str:
+    """The interpreter used for the nodes.
+
+    Order: an explicit `python:=` argument, then the repository's own
+    `.venv/bin/python`, then `python3` from PATH.
+
+    The fallback is worth knowing about: with a conda environment, or a venv
+    somewhere other than `<repository>/.venv`, this lands on the system Python
+    and the nodes fail to import `v5s_teleop`. Pass `python:=` in that case.
+    """
+    if override:
+        exe = Path(override).expanduser()
+        if not exe.exists():
+            raise RuntimeError(f"python:={override} does not exist")
+        return str(exe)
     venv = ROOT / ".venv" / "bin" / "python"
     return str(venv) if venv.exists() else "python3"
 
@@ -93,7 +108,7 @@ def _setup(context, *_):
         raise RuntimeError(
             f"haptics must be same, none, left, right or both (got {hap_key!r})")
 
-    py = _python()
+    py = _python(arg("python"))
     actions = [LogInfo(msg=(
         f"[v5s] teleop {'+'.join(hands)}"
         f" | vibration {'+'.join(haptics) if haptics else 'none'}"
@@ -168,6 +183,9 @@ def generate_launch_description() -> LaunchDescription:
                               description="do not actually emit joint_cmd or vibration"),
         DeclareLaunchArgument("diag", default_value="false",
                               description="turn on teleop latency instrumentation"),
+        DeclareLaunchArgument("python", default_value="",
+                              description="interpreter for the nodes; defaults to "
+                                          "<repo>/.venv/bin/python, then python3 on PATH"),
         DeclareLaunchArgument("startup_delay", default_value="6.0",
                               description="seconds to wait for the bridge. Over wireless "
                                           "the gloves take about 4 s to attach "

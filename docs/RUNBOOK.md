@@ -44,6 +44,7 @@ Arguments select what comes up:
 | `diag` | teleop latency instrumentation | `false` |
 | `startup_delay` | seconds to wait for the bridge | `6.0` |
 | `can_left` / `can_right` | CAN ports | `can0` / `can1` |
+| `python` | Interpreter for the nodes | `<repo>/.venv/bin/python`, then `python3` |
 
 ```bash
 ros2 launch launch/v5s.launch.py hands:=right                 # right hand, with haptics

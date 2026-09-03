@@ -4,16 +4,64 @@
 
 Python 3.12 is required -- upstream `dex-retargeting` requires `< 3.13`.
 
-The standard `venv` module can fail without `ensurepip` on some Ubuntu images.
-**`uv` works without sudo:**
+### Where the environment must live
+
+**Create it at `<repository>/.venv`.** The launch file looks for
+`.venv/bin/python` there, which is why nothing has to be activated before
+`ros2 launch`.
+
+If it lives anywhere else -- a conda environment, or a venv under a different
+name -- the launch file falls back to `python3` on `PATH`. That is usually the
+system Python, and the nodes then fail to import `v5s_teleop`. **It fails at
+import time, not at launch time**, so the message is easy to misread.
+
+To use a different interpreter, say so explicitly:
 
 ```bash
+ros2 launch launch/v5s.launch.py hands:=left python:=/path/to/bin/python
+```
+
+### Standard venv (no extra tooling)
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/pip install --upgrade pip
+.venv/bin/pip install -e .
+```
+
+`dex-retargeting` is on PyPI, so this pulls everything.
+
+### If `venv` fails
+
+Some Ubuntu images ship Python without `ensurepip`, and `python3 -m venv` then
+fails. Either install the package:
+
+```bash
+sudo apt install python3.12-venv
+```
+
+or use [`uv`](https://docs.astral.sh/uv/), which needs no sudo:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 ```
 
+### Conda
+
+Conda works, but it does not get picked up automatically. Create the environment
+with Python 3.12, `pip install -e .` inside it, and pass the interpreter to
+every launch:
+
+```bash
+conda create -n v5s python=3.12 && conda activate v5s
+pip install -e .
+ros2 launch launch/v5s.launch.py hands:=left python:=$(which python)
+```
+
 > `dex-retargeting` imports `torch` without declaring it as a dependency. Our
-> `pyproject.toml` declares it, so the command above installs it too.
+> `pyproject.toml` declares it, so any of the commands above install it.
 > The CPU build of torch is sufficient; nothing here uses a GPU.
 
 To install upstream from a local source tree instead of PyPI, add its path
