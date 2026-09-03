@@ -231,7 +231,7 @@ What upstream does not provide is added by our code in
 `src/v5s_teleop/retarget/`:
 
 1. **Injecting the pinch projection distance (`eta1`).** 
-2. **A virtual wrist frame (`wrist_offset`).** T
+2. **A virtual wrist frame (`wrist_offset`).**
 3. **A self-collision penalty**, giving finger link pairs a minimum separation
    (off by default).
 4. **Shape matching (`shape_weight`).** 
