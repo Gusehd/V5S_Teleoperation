@@ -176,8 +176,7 @@ yours", so a new user is recommended to recompute it (the default is 1.5):
 ```
 > `--glove-id` can be omitted when only one glove has been calibrated. With more
 > than one, the tool lists the stored ids; they are also printed on the bridge's
-> status line as `gloves L=0x... R=0x...`.
-Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
+> status line as `gloves L=0x... R=0x...`. Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 
 > **[`docs/PARAMETERS.md`](docs/PARAMETERS.md)** -- every adjustable value,
 > split into retargeting (section 1) and haptics (section 2).
