@@ -25,7 +25,7 @@ C++ tools are built by `make` and run as `./tools/<name>`.
 
 | Tool | What it does |
 |---|---|
-| `recommend_scaling.py` | Computes `scaling_factor` from the MANUS calibration file: robot finger length divided by the user's, averaged over index, middle and ring. **A new user must run this**, or the robot will over- or under-reach. `--glove-id 0x...` selects the profile when more than one is stored |
+| `recommend_scaling.py` | Computes `scaling_factor` from the MANUS calibration file: robot finger length divided by the user's, averaged over index, middle and ring. `--glove-id <glove_id>` selects the profile when more than one is stored |
 
 ## When something is wrong
 
