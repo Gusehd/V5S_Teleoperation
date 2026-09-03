@@ -39,7 +39,7 @@ The venv does **not** need activating for section 0 -- the launch file finds
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-source ~/hand_ws/<driver workspace>/install/setup.bash
+source ~/<driver workspace>/install/setup.bash
 
 ros2 launch launch/v5s.launch.py hands:=both
 ```
