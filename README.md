@@ -192,7 +192,6 @@ ros2 launch launch/v5s.launch.py hands:=both
 ```
 > That single command brings up seven processes: two hand drivers, the glove bridge, two teleop nodes and two haptics nodes.
 > driver:=true is the default, which is why the driver workspace has to be sourced. If the drivers are already running in their own terminals, add driver:=false
-> The driver brings its CAN interface up itself and will ask for a sudo password while doing so.
 > Hand numbering follows `hands` automatically -- left is `allegroHand_0` on `can0`, right is `allegroHand_1` on `can1`. `HAND:=` `NUM:=` `CAN_DEVICE:=` are the driver's own arguments, needed only when starting it separately.
 > Full command reference: [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 
