@@ -143,7 +143,7 @@ separately.
 
 | Component | Vendor | License | Included as |
 |---|---|---|---|
-| MANUS SDK | MANUS Meta | Proprietary (licensed to us) | **Not included** -- users install it themselves |
+| MANUS SDK | MANUS Meta | Proprietary (Requires individual license) | **Not included** -- users install it themselves |
 
 > MANUS SDK binaries and headers are **not in this repository.** Redistribution
 > is not permitted and the SDK is large. The setup guide covers installation
