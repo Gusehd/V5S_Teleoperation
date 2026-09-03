@@ -1,4 +1,4 @@
-# ✋ V5S Teleop
+# ✋ Teleoperation : Allegro Hand V5 Sense
 
 Real-time teleoperation of a **[`Allegro Hand V5 Sense`](https://www.allegrohand.com/sub/product/p.php?idx=22)** from a
 **MANUS Metaglove Pro Haptic glove**, with tactile feedback returned to the glove as
