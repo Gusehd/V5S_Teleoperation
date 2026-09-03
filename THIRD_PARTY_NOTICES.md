@@ -124,10 +124,6 @@ MPL-2.0 is **file-level copyleft**. We link against `libzmq` dynamically and do
 not modify it, so it has no effect on the license of our code. Modifying it would
 require publishing those files under the MPL.
 
-> Not distributing binaries matters here: the MANUS SDK may not be
-> redistributed, and a compiled bridge links against it. `.gitignore` enforces
-> this.
-
 ---
 
 ## ROS2
@@ -139,7 +135,7 @@ The **hand driver** `allegro_hand_ros2` (Wonik Robotics, **BSD**) is also a
 runtime dependency -- it is what receives `joint_cmd` and publishes
 `joint_states` and `tactile_sensors`. It is not bundled; users install it
 separately.
-<https://github.com/Wonikrobotics-git/allegro_hand_ros2>
+<https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense>
 
 ---
 
