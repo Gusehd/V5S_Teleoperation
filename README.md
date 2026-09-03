@@ -5,7 +5,7 @@ Real-time teleoperation of a **[`Allegro Hand V5 Sense`](https://www.allegrohand
 vibration.
 
 ```
-[MANUS dongle] --SDK--> [glove bridge, C++] --ZMQ--> [retargeting, Python] --rclpy--> [ROS2 hand driver]
+[MANUS] --SDK--> [glove bridge, C++] --ZMQ--> [retargeting, Python] --rclpy--> [ROS2 hand driver]
                                                                                               |
                         [glove vibration] <--ZMQ-- [haptics node] <--------- tactile sensors --+
 ```
