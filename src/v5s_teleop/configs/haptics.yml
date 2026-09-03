@@ -1,0 +1,51 @@
+# Tactile pressure to glove vibration settings
+#
+# The schema is v5s_teleop.haptics_map.HapticMapping.
+# Every entry can be changed while the node is running:
+#     ros2 param set /v5s_haptics <name> <value>
+# The values here are the **defaults applied at node startup**. Once good values
+# are found, write them back into this file.
+#
+# Background: the V5 Sense hand has 16 tactile channels, but the MANUS glove has
+# only one vibration channel per finger (five in total). So **only fingertip
+# pressure is sent, 1:1**.
+#   tactile[3]=thumb tip -> Thumb,  [7]=index tip -> Index,
+#   [11]=middle tip -> Middle,  [15]=ring tip -> Ring,
+#   Pinky is always 0 (this is a four-finger hand)
+
+haptics:
+  # linear : vibration varies continuously with pressure
+  # step   : each band (the colour bands of the hand visualiser) emits a fixed
+  #          strength. People notice **the moment a band changes** far more
+  #          readily than a small difference in vibration strength.
+  mode: linear
+
+  # At or below this pressure, no vibration (dead zone) [kPa]
+  #   The sensors read slightly above zero even with no contact (operator
+  #   measurement, 2026-08-24). Leaving this at 0 makes the glove buzz
+  #   constantly. The visualiser's blue band (0-5) covers this region.
+  #   Raise it and a firm press is needed; lower it and light contact registers,
+  #   at the cost of picking up noise.
+  min_kpa: 5.0
+
+  # Pressure at which vibration reaches maximum (1.0) [kPa]. Above this it stays 1.0.
+  #   The sensor range is 0-400 kPa, but the useful range is 0-40 (operator
+  #   measurement -- the visualiser turns red around 40).
+  #   The step-mode band edges scale with this value
+  #   (at max=40: 10 / 20 / 30 = cyan / green / yellow / red).
+  max_kpa: 40.0
+
+  # How fast vibration grows with pressure.  vibration = normalized ** gamma
+  #   0.5  rises early -- even a graze is felt clearly (sensitive)
+  #   1.0  proportional to pressure (linear)
+  #   2.0  needs a firm press to respond (dull)
+  gamma: 1.0
+
+# ── Values deliberately not here ────────────────────────────────────────
+# The following are internal constants in haptics_map.py. They are kept out of
+# the config to keep the surface a user has to touch after release as small as
+# possible. Edit that file if they ever need changing.
+#   _MOTOR_FLOOR  0.12   minimum strength at which the motor actually turns
+#   _HYSTERESIS   1.4    once on, stay on until the signal drops by this factor
+#                        (prevents flicker)
+#   STEP_EDGES           step-mode band edges, as fractions of max_kpa

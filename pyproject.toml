@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "v5s-teleop"
+version = "0.1.0"
+description = "Teleoperation of a four-finger 16-DOF V5 Sense robot hand from a MANUS Metaglove."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"   # upstream dex-retargeting requires <3.13
+# TODO: fill in once the release license is decided; add the LICENSE file too.
+# license = { file = "LICENSE" }
+
+dependencies = [
+  # Retargeting core. Upstream is used unmodified; our extensions live in
+  # src/v5s_teleop/retarget/.
+  "dex_retargeting>=0.5.0",
+  # Upstream's optimizer.py imports torch without declaring it as a dependency.
+  # Without this line a clean install fails with an ImportError.
+  "torch>=2.0",
+  "numpy>=2.0.0",
+  "pyzmq>=25.0",     # glove bridge to the retargeting process
+  "pyyaml>=6.0.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+# rclpy comes from the ROS2 distribution rather than pip, so it is not listed here.
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/v5s_teleop"]
+
+[tool.ruff]
+line-length = 100

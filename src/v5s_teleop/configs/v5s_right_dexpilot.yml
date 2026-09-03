@@ -1,0 +1,238 @@
+# V5 Sense RIGHT hand -- 4-finger 16-DOF DexPilot retargeting config
+#
+# The schema is v5s_teleop.retarget.builder.RetargetingSpec.
+# It is not compatible with upstream dex-retargeting config files (eta1 and the
+# self-collision terms are additions of ours).
+#
+# Every constant here was measured directly from the V5 Sense URDF. The
+# measurement script is tools/measure_hand_constants.py; rerun it if the
+# hardware changes.
+#
+# The two URDFs are an **exact kinematic mirror** (measured 2026-08-31): apply
+# the mirror mapping (sign flip on abduction and thumb, 180deg - theta for
+# joint_13_0) and the fingertip positions agree to within 1 mm. Fingertip reach
+# in x and z is identical, so scaling_factor, wrist_offset, eta1 and the
+# collision margins all carry over from the left hand unchanged.
+# Verified on real hardware 2026-09-02 (both hands, wireless, with haptics).
+
+retargeting:
+  type: DexPilot
+  urdf_path: ../../../urdf/v5_sense/allegro_hand_description_right.urdf
+  # palm_link itself is not the wrist -- it sits at the finger bases. The
+  # wrist_offset below sets the actual reference point. See the "virtual wrist
+  # frame" section further down for the reasoning.
+  wrist_link_name: palm_link
+
+  # The thumb must come first -- DexPilot treats the first fingertip as the
+  # thumb when it builds the pinch pairs.
+  finger_tip_link_names:
+    - link_15_0_tip   # thumb  (joint_12_0 .. 15_0)
+    - link_3_0_tip    # index  (joint_0_0 .. 3_0)
+    - link_7_0_tip    # middle (joint_4_0 .. 7_0)
+    - link_11_0_tip   # ring   (joint_8_0 .. 11_0)
+
+  # Joint order of the output vector. It must match what the ROS2 driver expects.
+  # (pinocchio internally reorders these to 0-3, 12-15, 4-7, 8-11, but the
+  #  optimizer hands them back in the order written here.)
+  target_joint_names:
+    - joint_0_0
+    - joint_1_0
+    - joint_2_0
+    - joint_3_0
+    - joint_4_0
+    - joint_5_0
+    - joint_6_0
+    - joint_7_0
+    - joint_8_0
+    - joint_9_0
+    - joint_10_0
+    - joint_11_0
+    - joint_12_0
+    - joint_13_0
+    - joint_14_0
+    - joint_15_0
+
+  # Human-to-robot scale, derived as robot palm-to-fingertip reach divided by
+  # human hand reach (p95). Robot measurements: index 175.1 / middle 140.8 /
+  # ring 175.1 / thumb 183.5 mm. This multiplies the human vectors and works
+  # together with wrist_offset below.
+  #
+  # 1.58 is the geometrically exact value (robot finger 156.6 mm / operator
+  # finger 99.0 mm). The operator preferred 1.5, which moves slightly less --
+  # a matter of taste, and both values are defensible.
+  #
+  # Independently calibrating both gloves gave 1.687 (left) and 1.679 (right),
+  # a difference of 0.008 -- so the same value is correct for both hands.
+  # If the user changes, recompute with tools/recommend_scaling.py (pass this
+  # file's urdf_path via --urdf).
+  # Adjust on hardware:  ros2 param set /v5s_teleop scaling_factor <value>
+  scaling_factor: 1.5
+
+  # Smaller is smoother but adds latency.
+  low_pass_alpha: 0.2
+
+  # ── Pinch projection ───────────────────────────────────────────────────
+  # eta1: target distance at which thumb and finger count as touching.
+  #   The link_*_tip frame origins sit inside the fingertip mesh (9.8 mm from
+  #   the surface on the fingers, 9.5 mm on the thumb). Over 1610 sampled
+  #   thumb-to-index poses, the tip-origin distance at the moment the meshes
+  #   actually touch (< 2 mm) was 26.9 +/- 8.1 mm.
+  #   The upstream default of 1e-4 would require the fingertips to overlap by
+  #   27 mm, so the pinch never closes.
+  eta1: 0.027
+  # eta2: separation to keep between fingers during a pinch, so they do not
+  # intrude into each other.
+  eta2: 0.03
+  project_dist: 0.03   # closer than this counts as a pinch and enables projection
+  escape_dist: 0.05    # wider than this disables it again (hysteresis)
+
+  # ── Joint limit overrides ──────────────────────────────────────────────
+  # Limit values are not a mirror of the left hand, but **13 of the 16 have the
+  # same width**, and the hardware team confirmed the other three are normal --
+  # start and end values may differ between hands and are not a concern
+  # (2026-08-31).
+  #
+  #   joint_0_0   index abduction   34 -> 55 deg  (right opens 23 deg wider)
+  #   joint_8_0   ring abduction    34 -> 55 deg
+  #   joint_13_0  thumb             78 -> 117 deg
+  #
+  # WARNING: joint_13_0 has its **zero offset by 180 degrees between hands**
+  #   (left 102-180, right -15-102). A pose that logs as 134 deg on the left
+  #   reads as 46 deg on the right. **This is normal** -- do not be alarmed by
+  #   the log.
+  #
+  # Confirmed to have no effect on the pinch (tools/check_lr_symmetry.py):
+  #   with pinch projection active, the minimum pinch distance is identical
+  #   between hands (37.0 mm) and the thumb tip differs by 2.8 mm. Narrowing the
+  #   limits to match the left hand does not change the result.
+  #   -> **No reason to override.** Left empty.
+  #
+  # The thumb's **idle** posture does differ between hands (about 15 mm on
+  # average). That is a resting-pose difference, not a functional one. Revisit
+  # only if it becomes distracting on hardware.
+  #
+  # If narrowing ever becomes necessary (abduction splaying wider than the left
+  # hand in a way that bothers the operator):
+  #   joint_limit_overrides:
+  #     joint_0_0: [-0.3, 0.262]
+  #     joint_8_0: [-0.262, 0.3]
+  joint_limit_overrides: {}
+
+  # ── Virtual wrist frame [x, y, z] (m) ─────────────────────────────────
+  # The palm_link origin is not the human wrist -- it is at the **finger bases
+  # (the knuckles)**. All 35 URDF frames were checked and none corresponds to a
+  # wrist or a mounting face (the rearmost frame is the thumb tip at z=-82,
+  # while the palm body extends to z=-151).
+  # The hardware team confirmed this is **intentional**: when mounting to an
+  # arm, the reference point is established by measurement. So we establish
+  # ours here.
+  #
+  # For context: our earlier V6 hand had base_link, and a standard Allegro has a
+  # wrist link, in the wrist position -- neither needed this offset.
+  #
+  # z = -0.169   * geometrically justified
+  #   The value that makes the palm-to-finger ratio match the human hand. At
+  #   this point the palm scale (152.4/96.4 = 1.58) equals the finger scale
+  #   (156.6/99.0 = 1.58), so a single scale fits the whole hand. (Measured on
+  #   the middle finger -- being the centre line, it is the cleanest.)
+  #
+  # x = -0.06   * geometrically justified -- workspace alignment
+  #   The robot index fingertip reaches x (the flexion direction) from -16 to
+  #   +121 mm, while scale x human x demands 0 to +134 mm. The widths are
+  #   similar but the starting points are offset, so **when making a fist the
+  #   target leaves the reachable range.**
+  #   DexPilot uses a Huber loss, so past 30 mm of error the pull no longer
+  #   grows; an unreachable target is then cancelled out by the other terms and
+  #   the result is **a less-curled posture**.
+  #   Making x negative brings the target band inside the reachable range and
+  #   the fingers curl properly. By calculation -0.013 is enough to make it
+  #   reachable, and going lower adds margin.
+  #   The operator settled on -0.05 by feel on the left hand. The fingertip x
+  #   reach is identical between hands, so the same value applies here -- this
+  #   is not an unverified guess.
+  #
+  # y = 0   left-right symmetric, so there is nothing to offset.
+  #
+  # Adjust on hardware:
+  #   ros2 param set /v5s_teleop wrist_offset "[-0.06, 0.0, -0.169]"
+  wrist_offset: [-0.06, 0.0, -0.169]
+
+  # ── Self-collision penalty ─────────────────────────────────────────────
+  # A squared penalty applies when a link pair comes closer than its margin
+  # (see optimizer_ext.py). The justification is the measurement that random
+  # poses inside the limits interpenetrate neighbouring fingers 6-10% of the
+  # time (index-middle 5.9% / middle-ring 7.8% / thumb-index 9.7%).
+  #
+  # WARNING: **never add a thumb pair.** The measured contact margin between
+  #   thumb and finger tips is 32-34 mm while eta1 (the pinch target) is 27 mm
+  #   -- adding one would let the penalty push the pinch apart and **break it**.
+  #   Thumb-to-finger interference is already handled by eta1/eta2.
+  #
+  # Margins are set to "tip-origin distance at actual mesh contact + 2 mm",
+  # while staying below the natural open-hand separation (index-middle 41.7 mm,
+  # middle-ring 43.5 mm) so the neutral pose is not distorted.
+  #
+  # weight 0 disables the penalty entirely (the default). Turn it on only when
+  # fingers are visibly hitting each other on hardware -- if they are not, there
+  # is no reason to.
+  collision_weight: 0.0
+  collision_link_pairs:
+    - [ "link_3_0_tip", "link_7_0_tip", 0.0343 ]    # index-middle
+    - [ "link_7_0_tip", "link_11_0_tip", 0.0349 ]   # middle-ring
+
+  # ── Shape matching ─────────────────────────────────────────────────────
+  # All ten DexPilot targets are fingertip positions, which leaves **one degree
+  # of freedom undetermined** across a finger's four joints. Measured: more than
+  # eight joint combinations give the same fingertip position (MCP/PIP/DIP =
+  # 50/40/30 works, and so does 65/0/65). Today that freedom is settled by
+  # upstream's norm_delta ("move as little as possible from the previous
+  # solution"), which has nothing to do with the shape of a human hand. So a
+  # slow curl ends up bending one phalanx while the rest stay stiff.
+  #
+  # This term matches **which way each segment points** (its unit vector)
+  # against the human. Directions rather than positions, because the robot's
+  # segments are not a scaled copy of a human's (on the index finger: proximal
+  # 1.01x / intermediate 1.59x / distal 1.91x). Matching positions would leave
+  # up to 21 mm of structural error per segment at scale 1.5, and that error
+  # fights the fingertip targets. Directions make the length difference
+  # irrelevant.
+  #
+  # [robot start link, robot end link, human start point, human end point]
+  # (human points are MANO 21 indices)
+  # The thumb is excluded -- the robot thumb is an opposed design whose joint
+  # layout differs from a human thumb, so it is unverified whether matching its
+  # directions directly is even meaningful.
+  #
+  # WARNING: this is not free. The better the directions match, the more
+  # **fingertip position accuracy is lost** (measured):
+  #     weight 0.0  -> tip error  8.7 mm / direction error 29.6 deg
+  #     weight 0.05 -> 27.5 mm / 11.8 deg
+  #     weight 0.2  -> 39.1 mm /  3.4 deg
+  #   Because the robot's segment lengths differ from a human's, matching
+  #   directions perfectly leaves a structural floor of 30-50 mm of tip error.
+  #   No amount of tuning removes it.
+  #   **The pinch is safe, though** -- the pinch projection weight (200-400)
+  #   dominates the shape term.
+  #
+  # Useful range 0.01 to 0.2. **Fixed at 0.2** (2026-08-25, by feel on hardware).
+  # At this strength the x offset has almost no effect on the joint angles
+  # (mean error 2.9-3.1 deg across x from 0 to -80 mm) -- the shape term settles
+  # the distribution directly. It can be changed while the node runs:
+  #   ros2 param set /v5s_teleop shape_weight 0.05
+  #
+  # WARNING: it interacts with wrist_offset x. The value x=-0.05 was chosen to
+  #   work around the "does not curl enough" symptom back when there was no
+  #   shape term, so enabling shape matching double-corrects. Start any retune
+  #   **from x=0**, then sweep shape_weight, then x, then scaling_factor --
+  #   in that order, so each change is judged on its own.
+  shape_weight: 0.2
+  shape_segments:
+    - [ "link_1_0", "link_2_0", 5, 6 ]        # index proximal (MCP->PIP)
+    - [ "link_2_0", "link_3_0", 6, 7 ]        # index intermediate (PIP->DIP)
+    - [ "link_3_0", "link_3_0_tip", 7, 8 ]    # index distal (DIP->TIP)
+    - [ "link_5_0", "link_6_0", 9, 10 ]       # middle proximal
+    - [ "link_6_0", "link_7_0", 10, 11 ]      # middle intermediate
+    - [ "link_7_0", "link_7_0_tip", 11, 12 ]  # middle distal
+    - [ "link_9_0", "link_10_0", 13, 14 ]     # ring proximal
+    - [ "link_10_0", "link_11_0", 14, 15 ]    # ring intermediate
+    - [ "link_11_0", "link_11_0_tip", 15, 16 ]# ring distal

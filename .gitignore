@@ -1,0 +1,54 @@
+# ── External assets (never in the public repository) ────────────────────
+# Upstream dex-retargeting source. Installed as a dependency, not vendored.
+dex-retargeting-main/
+# The earlier Isaac Sim project, kept locally as the port source (it contains a
+# third-party fork under vendor/).
+manus-isaacsim-teleop/
+# MANUS SDK -- redistribution is not permitted (see THIRD_PARTY_NOTICES.md).
+# The SDK archive and its unpacked tree live under external/, never in the repo.
+external/
+ManusSDK/
+third_party/
+
+# ── Paper PDFs (size) ───────────────────────────────────────────────────
+*.pdf
+
+# ── Python ──────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+
+# ── C++ bridge build artifacts ──────────────────────────────────────────
+bridge_cpp/build/
+*.o
+*.so
+
+# ── Runtime data ────────────────────────────────────────────────────────
+logs/
+data/
+*.h5
+*.mcal
+
+# URDF copy the retargeter writes at runtime (with the virtual wrist link added)
+urdf/**/.*.virtualwrist.urdf
+# Temporary logs
+log.txt
+*.log
+
+# ── Compiled executables (they link libManusSDK -- never commit) ────────
+# Only the .cpp sources are published; everyone builds their own binary. This
+# keeps us clear of any SDK redistribution question.
+bridge_cpp/manus_bridge
+tools/manus_diag
+tools/manus_nodes
+tools/manus_apply_mcal
+
+# ── Work-in-progress backups ────────────────────────────────────────────
+*.backup-before-*
+internal/
