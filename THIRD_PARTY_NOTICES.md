@@ -65,10 +65,6 @@ the wrist reference frame correction) is implemented in
 `src/v5s_teleop/retarget/` by **subclassing** upstream's public classes.
 Upstream exists only as a pip dependency and is not bundled here.
 
-> NOTE: **patents are separate from copyright.** The MIT license covers
-> copyright only. A patent review before commercial distribution is a matter for
-> legal counsel, and this document is not a substitute for one.
-
 ---
 
 ## Python runtime dependencies
