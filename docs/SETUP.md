@@ -162,21 +162,11 @@ distribution, not from pip:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-source ~/hand_ws/<driver workspace>/install/setup.bash
+source ~/<driver workspace>/install/setup.bash
 ```
 
-The driver package is `allegro_hand_controllers`. Each hand needs its own CAN
+The driver package is [`allegro_hand_ros2_V5_Sense`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense). Each hand needs its own CAN
 interface, at 1 Mbit/s:
-
-```bash
-sudo ip link set can0 up type can bitrate 1000000
-sudo ip link set can1 up type can bitrate 1000000
-ip -details link show can0 | grep "can state"     # expect ERROR-ACTIVE
-```
-
-`ERROR-PASSIVE` means the bus has backed off after accumulating receive errors.
-Bring the interface down and up again; if it persists, check termination,
-wiring and hand power before running anything.
 
 ## 4. Verify
 
