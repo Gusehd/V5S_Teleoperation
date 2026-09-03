@@ -1,4 +1,4 @@
-# V5S Teleop
+# ✋ V5S Teleop
 
 Real-time teleoperation of a **four-finger, 16-DOF V5 Sense robot hand** from a
 MANUS Metaglove Pro Haptic glove, with tactile feedback returned to the glove as
@@ -19,8 +19,8 @@ Both hands are supported and can run at the same time, wired or wireless.
 | OS | Ubuntu (verified on 24.04) |
 | ROS2 | Jazzy -- `rclpy` comes from the distribution, not pip |
 | Python | 3.12 (upstream `dex-retargeting` requires < 3.13) |
-| Hand driver | [`allegro_hand_v5s_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense) |
-| [`MANUS SDK`](https://docs.manus-meta.com/3.2.0/Resources/) | Core 3 / 3.1.1, obtained from MANUS under your own license |
+| Hand driver | [`allegro_hand_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2) |
+| MANUS SDK | Core 3 / 3.1.1, obtained from MANUS under your own license |
 | Hardware | MANUS Metaglove Pro Haptic, V5 Sense hand, one CAN interface per hand |
 
 The MANUS SDK is **not** included here -- redistribution is not permitted. See
@@ -35,8 +35,8 @@ git clone <this repository>
 cd V5S_Teleop
 ```
 
-Create the virtual environment **at `.venv` inside the repository** (See the
-note below on why the location matters.)
+Create the virtual environment **at `.venv` inside the repository** -- see the
+note below on why the location matters.
 
 ```bash
 python3.12 -m venv .venv
@@ -92,22 +92,52 @@ Calibration is stored per glove ID, so **each glove must be calibrated
 separately**. Without it the skeleton freezes in a fixed pose with no error, and
 it looks like "connected but the hand will not move".
 
-Use the MANUS SDK client: main menu `C`, press `H` to select the hand (it starts
-on Left), `S` to start, then hold each posture and press `E`, and `F` to finish.
-Shut the client down completely before starting the bridge -- the SDK allows only
-one instance.
+Calibration is done with the client that ships inside the MANUS SDK:
 
-**4. Set the scale for your hand**
+```
+<SDK>/SDKClient_Linux/SDKClient_Linux.out
+```
 
-`scaling_factor` is "how many times longer the robot's fingers are than yours",
-so it changes with the user:
+Build it with the `Makefile` in that same folder if the binary is not present.
+Run it with the dongle connected and the glove powered on (its LED turns blue
+once it is connected; white blinking means it is still waiting to pair, in which
+case pair it first from the client's `P` menu).
+
+Then, in the client:
+
+| Key | Step |
+|---|---|
+| `C` | open the Glove Calibration menu |
+| `H` | **switch hands** -- it starts on Left, so press this for the right glove |
+| `S` | start calibration |
+| `E` | run the current step; hold the posture shown on screen |
+| `F` | finish once every step is done |
+
+Check that the screen shows `Calibrating: <side>` and a non-zero `Glove:` id
+before starting -- with `Glove: 0` the keys do nothing.
+
+**Shut the client down completely before starting the bridge** -- the SDK allows
+only one instance at a time.
+
+**4. Adjust parameters for your hand**
+
+The shipped values work, with one exception: **`scaling_factor` depends on the
+size of your hand.** It is "how many times longer the robot's fingers are than
+yours", so a new user should recompute it:
 
 ```bash
 .venv/bin/python tools/recommend_scaling.py --glove-id 0x...
 ```
 
-Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`, or set it
-live with `ros2 param set`.
+Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
+
+**That is the only one we suggest changing to begin with.** The rest -- the wrist
+offset, the shape matching weight, the pinch distances, the haptic response
+curve -- have measured or geometric justifications and are documented with the
+reasoning behind each value, plus how to tune them and what the trade-offs are:
+
+> **[`docs/PARAMETERS.md`](docs/PARAMETERS.md)** -- every adjustable value,
+> split into retargeting (section 1) and haptics (section 2).
 
 **5. Run**
 
@@ -115,13 +145,39 @@ live with `ros2 param set`.
 source /opt/ros/jazzy/setup.bash
 source ~/hand_ws/<driver workspace>/install/setup.bash
 
-ros2 launch launch/v5s.launch.py hands:=left dry_run:=true   # log angles only
-ros2 launch launch/v5s.launch.py hands:=left                 # drive the hand
-ros2 launch launch/v5s.launch.py hands:=both                 # both hands
+ros2 launch launch/v5s.launch.py hands:=left      # left hand, with haptics
+ros2 launch launch/v5s.launch.py hands:=both      # both hands
 ```
 
-**Always run `dry_run:=true` first on a new config** and check the joint angles
-in the log before energizing the hand. `Ctrl+C` once brings everything down.
+`Ctrl+C` once brings everything down.
+
+Common variations:
+
+```bash
+# log joint angles without driving the hand
+ros2 launch launch/v5s.launch.py hands:=left dry_run:=true
+
+# teleoperation only, no vibration
+ros2 launch launch/v5s.launch.py hands:=right haptics:=none
+
+# the drivers are already running in their own terminals
+ros2 launch launch/v5s.launch.py hands:=both driver:=false
+
+# print the per-layer latency every second
+ros2 launch launch/v5s.launch.py hands:=left diag:=true
+```
+
+Parameters can also be changed while it runs, without a restart. The node name
+carries the hand:
+
+```bash
+ros2 param set /v5s_teleop_left scaling_factor 1.4
+ros2 param set /v5s_teleop_left shape_weight 0.15
+ros2 param set /v5s_haptics_left gamma 0.7
+```
+
+> Before driving the hardware with a config you have not used before, it is
+> worth running `dry_run:=true` once and checking the joint angles in the log.
 
 Full command reference: [`docs/RUNBOOK.md`](docs/RUNBOOK.md).
 
