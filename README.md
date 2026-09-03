@@ -142,7 +142,7 @@ source /opt/ros/jazzy/setup.bash
 source ~/<driver workspace>/install/setup.bash
 
 # example : Hand controller
-ros2 launch allegro_hand_controllers allegro_hand.launch.py HAND:=left CAN_DEVICE:=can0 NUM:=0 VISUALIZE:=true GUI:=true
+ros2 launch allegro_hand_controllers allegro_hand.launch.py HAND:=left CAN_DEVICE:=can0 NUM:=0
 
 # example : Teleoperation
 ros2 launch launch/v5s.launch.py hands:=left      # left hand, with haptics
