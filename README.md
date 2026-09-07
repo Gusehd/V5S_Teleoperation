@@ -99,7 +99,7 @@ live one level in, **not** at the top of the archive:
 Unpacking it under `external/` in this repository makes it the default:
 
 ```bash
-mkdir -p external && tar -xf <manus-sdk-archive> -C external/
+unzip /path/to/MANUS_Core_3.1.1_SDK.zip -d external/
 make
 ```
 
