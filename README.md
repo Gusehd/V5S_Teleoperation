@@ -87,12 +87,19 @@ If `python3.12 -m venv` fails (some Ubuntu images ship without `ensurepip`),
 [`uv`](https://docs.astral.sh/uv/) works without sudo:
 
 ```bash
+<!--
 curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
 uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 
 # Fix Pinocchio C++ bindings (Required for Python 3.12)
 VIRTUAL_ENV=.venv uv pip install --reinstall cmeel pin
+-->
+
+curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
+uv venv --python 3.10 .venv
+VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
+.venv/bin/pip install "numpy<2"
 ```
 
 > **A venv is recommended, not required.** Conda works too; see
