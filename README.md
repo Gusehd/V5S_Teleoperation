@@ -186,6 +186,13 @@ Calibration is done with the client that ships inside the MANUS SDK:
 ```
 
 Build it with the `Makefile` in that same folder if the binary is not present.
+
+```bash
+cd external/ManusSDK_v3.1.1/SDKClient_Linux/
+make
+./SDKClient_Linux.out
+```
+
 Run it with the dongle connected and the glove powered on (its LED turns blue
 once it is connected; white blinking means it is still waiting to pair, in which
 case pair it first from the client's `P` menu).
