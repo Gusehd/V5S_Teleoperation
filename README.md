@@ -60,6 +60,9 @@ python3.12 -m venv .venv
 # Install the CPU build of torch first -- see the note below
 .venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
 .venv/bin/pip install -e .
+
+# Fix Pinocchio C++ bindings (Required for Python 3.12)
+.venv/bin/pip install --upgrade --force-reinstall cmeel pin
 ```
 
 > **Install the CPU torch first.** `dex-retargeting` requires torch, and the
@@ -74,6 +77,9 @@ If `python3.12 -m venv` fails (some Ubuntu images ship without `ensurepip`),
 curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
 uv venv --python 3.12 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
+
+# Fix Pinocchio C++ bindings (Required for Python 3.12)
+VIRTUAL_ENV=.venv uv pip install --reinstall cmeel pin
 ```
 
 > **A venv is recommended, not required.** Conda works too; see
