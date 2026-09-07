@@ -39,6 +39,12 @@ First get the two external pieces, following their own instructions:
 - [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense)
 - [`MANUS SDK`](https://docs.manus-meta.com/3.1.1/Resources/)(unpack it under external/ in this repository, which is where step 2 looks by default).
 
+Install common system dependencies for C++ compilation and ZeroMQ
+```bash
+sudo apt update
+sudo apt install -y build-essential libzmq3-dev
+```
+
 Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
 
