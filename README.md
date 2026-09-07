@@ -49,6 +49,7 @@ Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
 
 ```bash
+<!--
 # Install Python 3.12 and venv module on Ubuntu
 sudo add-apt-repository ppa:deadsnakes/ppa -y
 sudo apt update
@@ -63,6 +64,18 @@ python3.12 -m venv .venv
 
 # Fix Pinocchio C++ bindings (Required for Python 3.12)
 .venv/bin/pip install --upgrade --force-reinstall cmeel pin
+-->
+sudo apt update
+sudo apt install -y python3.10-venv
+python3.10 -m venv .venv
+.venv/bin/pip install --upgrade pip
+
+# Install the CPU build of torch first -- see the note below
+.venv/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
+.venv/bin/pip install -e .
+
+# Ensure NumPy 1.x ABI compatibility for Pinocchio C++ bindings
+.venv/bin/pip install "numpy<2"
 ```
 
 > **Install the CPU torch first.** `dex-retargeting` requires torch, and the
