@@ -43,6 +43,11 @@ Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
 
 ```bash
+# Install Python 3.12 and venv module on Ubuntu
+sudo add-apt-repository ppa:deadsnakes/ppa -y
+sudo apt update
+sudo apt install -y python3.12 python3.12-venv 
+
 python3.12 -m venv .venv
 .venv/bin/pip install --upgrade pip
 
