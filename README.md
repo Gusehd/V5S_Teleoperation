@@ -188,6 +188,9 @@ Calibration is done with the client that ships inside the MANUS SDK:
 Build it with the `Makefile` in that same folder if the binary is not present.
 
 ```bash
+sudo apt update
+sudo apt install -y libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
+
 cd external/ManusSDK_v3.1.1/SDKClient_Linux/
 make
 ./SDKClient_Linux.out
