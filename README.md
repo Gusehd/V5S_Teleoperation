@@ -137,12 +137,14 @@ Unpacking it under `external/` in this repository makes it the default:
 
 ```bash
 unzip /path/to/MANUS_Core_3.1.1_SDK.zip -d external/
+cd V5S_Teleoperation
 make
 ```
 
 Anywhere else works too -- just say where:
 
 ```bash
+cd V5S_Teleoperation
 make MANUS_SDK=/path/to/SDKClient_Linux/ManusSDK
 ```
 
