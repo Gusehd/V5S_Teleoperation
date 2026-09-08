@@ -48,7 +48,6 @@ sudo apt install -y build-essential libzmq3-dev
 Create the virtual environment **at `.venv` inside the repository** (see the
 note below on why the location matters.)
 
-```bash
 <!--
 # Install Python 3.12 and venv module on Ubuntu
 sudo add-apt-repository ppa:deadsnakes/ppa -y
@@ -65,6 +64,8 @@ python3.12 -m venv .venv
 # Fix Pinocchio C++ bindings (Required for Python 3.12)
 .venv/bin/pip install --upgrade --force-reinstall cmeel pin
 -->
+
+```bash
 sudo apt update
 sudo apt install -y python3.10-venv
 python3.10 -m venv .venv
@@ -86,7 +87,6 @@ python3.10 -m venv .venv
 If `python3.12 -m venv` fails (some Ubuntu images ship without `ensurepip`),
 [`uv`](https://docs.astral.sh/uv/) works without sudo:
 
-```bash
 <!--
 curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
 uv venv --python 3.12 .venv
@@ -96,6 +96,7 @@ VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
 VIRTUAL_ENV=.venv uv pip install --reinstall cmeel pin
 -->
 
+```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh      # if uv is not installed
 uv venv --python 3.10 .venv
 VIRTUAL_ENV=.venv uv pip install --torch-backend=cpu -e .
@@ -189,8 +190,7 @@ Calibration is done with the client that ships inside the MANUS SDK:
 
 Build it with the `Makefile` in that same folder if the binary is not present.
 
-```bash
-<---
+<!--
 sudo apt update
 sudo apt install -y libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
 
@@ -199,6 +199,7 @@ make
 ./SDKClient_Linux.out
 --->
 
+```bash
 # If Docker is not installed on your system:
 sudo apt update
 sudo apt install -y docker.io
