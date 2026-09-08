@@ -16,7 +16,7 @@ Both hands are supported and can run at the same time, wired or wireless.
 
 | Item | Details |
 |---|---|
-| OS | Ubuntu (verified on 24.04) |
+| OS | Ubuntu (verified on 24.04 / 22.04) |
 | ROS2 | Jazzy -- `rclpy` comes from the distribution, not pip |
 | Python | 3.12 (upstream `dex-retargeting` requires < 3.13) |
 | Hand driver | [`Allegro_hand_V5S_ros2`](https://github.com/Wonikrobotics-git/allegro_hand_ros2_V5_Sense) |
