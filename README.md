@@ -168,7 +168,7 @@ which makes this easy to misdiagnose. Two udev rules grant access by vendor id:
 
 ```bash
 sudo bash tools/install_license_udev.sh
-sudo bash tools/install_glove_udev.sh
+sudo bash tools/install_glove_udev.sh`
 ```
 
 Replug the dongle afterwards so the rules apply to the existing nodes.
@@ -230,7 +230,11 @@ Then, in the client:
 | `H` | **switch hands** -- it starts on Left, so press this for the right glove |
 | `S` | start calibration |
 | `E` | run the current step; hold the posture shown on screen |
+| `P` | move to the next step (press this after E to advance to the next posture) |
 | `F` | finish once every step is done |
+
+Calibration Flow: Press `S` to start, then repeat (`E` -> `P`) for each of the 4 steps, and finally press `F` to save and finish.
+For detailed poses and steps, please refer to the official [`YouTube video`](https://www.youtube.com/watch?v=QmvZRraBz50).
 
 Check that the screen shows `Calibrating: <side>` and a non-zero `Glove:` id
 before starting -- with `Glove: 0` the keys do nothing.
