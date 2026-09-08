@@ -188,10 +188,27 @@ Calibration is done with the client that ships inside the MANUS SDK:
 Build it with the `Makefile` in that same folder if the binary is not present.
 
 ```bash
+<---
 sudo apt update
 sudo apt install -y libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc
 
 cd external/ManusSDK_v3.1.1/SDKClient_Linux/
+make
+./SDKClient_Linux.out
+--->
+
+cd external/ManusSDK_v3.1.1/SDKClient_Linux/
+
+# Build the Docker environment (This takes ~10-15 minutes as it compiles gRPC from source)
+sudo docker build -f ./Dockerfile -t manus-linux .
+
+# Run the container with hardware access (this command also bypasses a typo in the official Dockerfile)
+sudo docker run --net=host --privileged -v /dev:/dev -v /run/udev:/run/udev -v $(pwd):/workspace -w /workspace -it --entrypoint /bin/bash manus-linux -c "service udev start && exec /bin/bash"
+```
+
+Inside the container, build and run the client:
+
+```bash
 make
 ./SDKClient_Linux.out
 ```
