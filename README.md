@@ -197,6 +197,11 @@ make
 ./SDKClient_Linux.out
 --->
 
+# If Docker is not installed on your system:
+sudo apt update
+sudo apt install -y docker.io
+sudo systemctl enable --now docker
+
 cd external/ManusSDK_v3.1.1/SDKClient_Linux/
 
 # Build the Docker environment (This takes ~10-15 minutes as it compiles gRPC from source)
