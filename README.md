@@ -202,7 +202,7 @@ cd external/ManusSDK_v3.1.1/SDKClient_Linux/
 # Build the Docker environment (This takes ~10-15 minutes as it compiles gRPC from source)
 sudo docker build -f ./Dockerfile -t manus-linux .
 
-# Run the container with hardware access (this command also bypasses a typo in the official Dockerfile)
+# Run the container with hardware access
 sudo docker run --net=host --privileged -v /dev:/dev -v /run/udev:/run/udev -v $(pwd):/workspace -w /workspace -it --entrypoint /bin/bash manus-linux -c "service udev start && exec /bin/bash"
 ```
 
