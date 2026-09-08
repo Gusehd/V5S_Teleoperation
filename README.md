@@ -240,7 +240,7 @@ For detailed poses and steps, please refer to the official [`YouTube video`](htt
 
 Check that the screen shows `Calibrating: <side>` and a non-zero `Glove:` id
 before starting -- with `Glove: 0` the keys do nothing.
-
+source /opt/ros/humble/setup.bash
 **Shut the client down completely before starting the bridge** -- the SDK allows
 only one instance at a time.
 
@@ -269,8 +269,10 @@ To maintain this correct order, plug in the left hand's USB-CAN adapter first, w
 ```bash
 # One command (a single terminal) - normally use this
 source /opt/ros/jazzy/setup.bash
+# or source /opt/ros/humble/setup.bash
 source ~/<driver workspace>/install/setup.bash
 
+cd V5S_Teleoperation
 ros2 launch launch/v5s.launch.py hands:=both
 ```
 > That single command brings up seven processes: two hand drivers, the glove bridge, two teleop nodes and two haptics nodes.
