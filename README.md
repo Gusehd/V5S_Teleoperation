@@ -261,6 +261,9 @@ Write the result into `src/v5s_teleop/configs/v5s_<hand>_dexpilot.yml`.
 
 **6. Run**
 
+Multi-Hand Setup (CAN Port Order): When using both hands (hands:=both), ensure that the left hand is assigned to **can0** and the right hand to **can1**. 
+To maintain this correct order, plug in the left hand's USB-CAN adapter first, wait a moment, and then plug in the right hand's adapter.
+
 ```bash
 # One command (a single terminal) - normally use this
 source /opt/ros/jazzy/setup.bash
